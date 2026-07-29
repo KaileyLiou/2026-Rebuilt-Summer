@@ -16,4 +16,16 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class HopperConstants {
+    public static final double HOPPER_CURRENT_LIMIT = 40;
+    public static final double MOTOR_SPEED = 1.0;
+    public static final CAN_BUS canbus = new CANBus("rio");
+  }
+
+  public static class ShooterConstants {
+    public static final int CURRENT_LIMIT = 30;
+    public static final double INDEXER_MOTOR_SPEED = 1.0;
+    public static final CAN_BUS CANBUS = new CANBus("rio")
+  }
 }
