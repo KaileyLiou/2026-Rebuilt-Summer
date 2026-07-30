@@ -30,4 +30,8 @@ public final class Constants {
     public static final double INDEXER_MOTOR_SPEED = 1.0;
     public static final CANBus CANBUS = new CANBus("rio");
   }
+
+  public static class IntakeConstants {
+    public static final CANBus CANBUS = new CANBus("rio");    
+  }
 }
