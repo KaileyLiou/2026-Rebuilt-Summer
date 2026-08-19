@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ctre.phoenix6.CANBus;
 
+import edu.wpi.first.epilogue.Logged;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -14,6 +16,7 @@ import com.ctre.phoenix6.CANBus;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
+@Logged
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -36,6 +39,8 @@ public final class Constants {
     public static final double INTAKE_CURRENT_LIMIT = 30;
     public static final double INTAKE_MOTOR_SPEED = 1.0;
     public static final double PIVOT_SPEED = 0.35;
+    public static final double ANGLE_UP = 190;
+    public static final double ANGLE_DOWN = 296;
     
     public static class PIDConstants {
       public static final double kP = 2;

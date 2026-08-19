@@ -45,6 +45,17 @@ public class Intake extends SubsystemBase {
         errorMargin = eM;
     }
 
+    public Command setAngleUpDownCmd() {
+        return this.runOnce(() -> {
+            double middle = (IntakeConstants.ANGLE_DOWN + IntakeConstants.ANGLE_UP)/2.0;
+            if(getAngle() < middle) {
+                setAnglePid(IntakeConstants.ANGLE_DOWN);
+            } else {
+                setAnglePid(IntakeConstants.ANGLE_UP);
+            }
+        });
+    }
+
     public Command setAnglePidCmd(double setpoint) {
         return this.run(() -> setAnglePid(setpoint));
     }
@@ -61,6 +72,15 @@ public class Intake extends SubsystemBase {
         return this.run(() -> intakeMotor.set(-IntakeConstants.INTAKE_MOTOR_SPEED)) // negative bc 
             .beforeStarting(() -> setIntakeNeutralMode(NeutralModeValue.Brake))
             .finallyDo((interrupted) -> { // interrupted tells you whether the command ended normally or was interrupted
+                angleMotor.set(0);
+                setIntakeNeutralMode(NeutralModeValue.Coast);
+            });
+    }
+
+    public Command reverseIntakeMotorCmd() {
+        return this.run(() -> intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED))
+            .beforeStarting(() -> setIntakeNeutralMode(NeutralModeValue.Brake))
+            .finallyDo((interrupted) -> {
                 angleMotor.set(0);
                 setIntakeNeutralMode(NeutralModeValue.Coast);
             });
