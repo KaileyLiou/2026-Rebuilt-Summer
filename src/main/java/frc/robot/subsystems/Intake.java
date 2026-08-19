@@ -26,21 +26,20 @@ public class Intake extends SubsystemBase {
         angleMotor = new TalonFX(IntakePorts.INTAKE_ANGLE_MOTOR, IntakeConstants.CANBUS);
         encoder = new DutyCycleEncoder(IntakePorts.ENCODER);
 
-        // NeutralModeValue represents what the motor should do when you're not commanding it to move
+        // NeutralModeValue represents what the motor should do when you're not commanding it to move (when you set speed to 0)
         configureTalonMotor(intakeMotor, Constants.IntakeConstants.INTAKE_CURRENT_LIMIT, NeutralModeValue.Coast);
         configureTalonMotor(angleMotor, Constants.IntakeConstants.INTAKE_CURRENT_LIMIT, NeutralModeValue.Brake);
 
         errorMargin = 45;
 
         anglePid = new PIDController(IntakeConstants.PIDConstants.kP, IntakeConstants.PIDConstants.kI, IntakeConstants.PIDConstants.kD);
-        anglePid.setTolerance(0.05); // consider the mechanism at the setpoint when the error is within 0.05 of the setpoint
+        anglePid.setTolerance(0.05); // consider the mechanism at the setpoint when the error is within 0.05 of the setpoint (depends on units)
     }
 
-    public Intake(TalonFX iM, TalonFX aM, DutyCycleEncoder e, PIDController p, double eM) { // for unit testing
+    public Intake(TalonFX iM, TalonFX aM, DutyCycleEncoder e, PIDController p, double eM) { // for unit testing with fake motors
         intakeMotor = iM;
         angleMotor = aM;
         encoder = e;
-        
         anglePid = p;
         errorMargin = eM;
     }
@@ -61,7 +60,7 @@ public class Intake extends SubsystemBase {
     }
 
     public Command setAngleUpCmd() {
-        return this.run(() -> angleMotor.set(-IntakeConstants.PIVOT_SPEED));
+        return this.run(() -> angleMotor.set(-IntakeConstants.PIVOT_SPEED)); // pivot speed is the motor output used while moving the pivot
     }
 
     public Command setAngleDownCmd() {
@@ -69,7 +68,7 @@ public class Intake extends SubsystemBase {
     }
 
     public Command setIntakeMotorCmd() {
-        return this.run(() -> intakeMotor.set(-IntakeConstants.INTAKE_MOTOR_SPEED)) // negative bc 
+        return this.run(() -> intakeMotor.set(-IntakeConstants.INTAKE_MOTOR_SPEED)) // negative bc depends on direction wheel spins
             .beforeStarting(() -> setIntakeNeutralMode(NeutralModeValue.Brake))
             .finallyDo((interrupted) -> { // interrupted tells you whether the command ended normally or was interrupted
                 angleMotor.set(0);
@@ -107,8 +106,8 @@ public class Intake extends SubsystemBase {
         return anglePid.atSetpoint();
     }
 
-    private void setIntakeNeutralMode(NeutralModeValue mode) {
-        var configs = new com.ctre.phoenix6.configs.MotorOutputConfigs();
+    private void setIntakeNeutralMode(NeutralModeValue mode) { // helper method, private since it is an internal implementation detail (changing a Talon configuration)
+        var configs = new com.ctre.phoenix6.configs.MotorOutputConfigs(); // makes a configuration object
         configs.NeutralMode = mode;
         angleMotor.getConfigurator().apply(configs);
     }
