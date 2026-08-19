@@ -34,6 +34,8 @@ public final class Constants {
   public static class IntakeConstants {
     public static final CANBus CANBUS = new CANBus("rio");   
     public static final double INTAKE_CURRENT_LIMIT = 30;
+    public static final double INTAKE_MOTOR_SPEED = 1.0;
+    public static final double PIVOT_SPEED = 0.35;
     
     public static class PIDConstants {
       public static final double kP = 2;
