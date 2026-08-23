@@ -47,8 +47,8 @@ public final class Constants {
   public static class ShooterConstants {
     public static final int CURRENT_LIMIT = 30;
     public static final double INDEXER_MOTOR_SPEED = 1.0;
-    public static final double SHOOTER_MOTOR_SPEED = -0.55;
-    public static final double SHOOTER_CRUISE_SPEED = -0.05;
+    public static final double SHOOTER_MOTOR_SPEED = -0.55; // open-loop percent output so 55%
+    public static final double SHOOTER_CRUISE_SPEED = -0.05; // keeps shooter gently spinning so we don't need to ramp up from rest every time
     public static final double ANGLE_MOTOR_SPEED = 0.1;
     public static final CANBus CANBUS = new CANBus("rio");
 
