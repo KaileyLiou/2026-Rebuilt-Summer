@@ -19,7 +19,8 @@ import edu.wpi.first.epilogue.Logged;
 @Logged
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int DRIVER_PORT = 0;
+    public static final int OPERATOR_PORT = 1;
   }
 
   public static class HopperConstants {
@@ -28,18 +29,12 @@ public final class Constants {
     public static final CANBus canbus = new CANBus("rio");
   }
 
-  public static class ShooterConstants {
-    public static final int CURRENT_LIMIT = 30;
-    public static final double INDEXER_MOTOR_SPEED = 1.0;
-    public static final CANBus CANBUS = new CANBus("rio");
-  }
-
   public static class IntakeConstants {
     public static final CANBus CANBUS = new CANBus("rio");   
     public static final double INTAKE_CURRENT_LIMIT = 30;
     public static final double INTAKE_MOTOR_SPEED = 1.0;
     public static final double PIVOT_SPEED = 0.35;
-    public static final double ANGLE_UP = 190;
+    public static final double ANGLE_UP = 190; // in degrees measured by an encoder
     public static final double ANGLE_DOWN = 296;
     
     public static class PIDConstants {
@@ -48,4 +43,25 @@ public final class Constants {
       public static final double kD = 0;
     }
   }
+
+  public static class ShooterConstants {
+    public static final int CURRENT_LIMIT = 30;
+    public static final double INDEXER_MOTOR_SPEED = 1.0;
+    public static final double SHOOTER_MOTOR_SPEED = -0.55;
+    public static final double SHOOTER_CRUISE_SPEED = -0.05;
+    public static final double ANGLE_MOTOR_SPEED = 0.1;
+    public static final CANBus CANBUS = new CANBus("rio");
+
+    public static class PIDConstants {
+      public static final double kP = 0.1;
+      public static final double kI = 0;
+      public static final double kD = 0.0002;
+    }
+
+    public static class FFConstants {
+      public static final double kS = 0.13052;
+      public static final double kV = 0.11939;
+    }
+  }
+
 }
